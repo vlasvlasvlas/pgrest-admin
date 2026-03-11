@@ -1,0 +1,40 @@
+entity: municipio
+table: municipios
+label: Municipios
+label_singular: Municipio
+icon: pin
+
+permissions:
+  create: [app_admin]
+  edit: [app_admin]
+  delete: [app_admin]
+
+list:
+  default_sort: nombre.asc
+  page_size: 25
+  searchable: [nombre]
+  columns:
+    - field: id
+      header: ID
+    - field: departamento_id
+      header: Departamento
+      embed: departamento:departamentos(nombre)
+      display: departamento.nombre
+    - field: nombre
+      header: Nombre
+
+fields:
+  - name: departamento_id
+    type: select
+    label: Departamento
+    required: true
+    source:
+      endpoint: /departamentos?select=id,nombre&order=nombre.asc
+      value_field: id
+      display_field: nombre
+
+  - name: nombre
+    type: text
+    label: Nombre
+    required: true
+    max_length: 120

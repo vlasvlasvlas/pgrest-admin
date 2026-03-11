@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pgrest-admin</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  </head>
+  <body>
+    <div id="app" class="app-shell hidden">
+      <aside id="sidebar" class="sidebar"></aside>
+
+      <section class="main-panel">
+        <header class="topbar">
+          <h1 id="header-title">pgrest-admin</h1>
+          <div class="topbar-actions">
+            <span id="user-badge" class="user-badge"></span>
+            <button id="btn-logout" class="btn btn-secondary" type="button">Salir</button>
+          </div>
+        </header>
+
+        <main id="main-content" class="main-content"></main>
+      </section>
+    </div>
+
+    <div id="login-root"></div>
+    <div id="toast-container" class="toast-container"></div>
+
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>

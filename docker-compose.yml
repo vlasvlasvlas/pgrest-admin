@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: pgrest-admin-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-pgrest_admin}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres123}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  postgrest:
+    image: postgrest/postgrest:v12.2.8
+    container_name: pgrest-admin-api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGRST_DB_URI: postgres://authenticator:${AUTHENTICATOR_PASSWORD:-auth123}@db:5432/${DB_NAME:-pgrest_admin}
+      PGRST_DB_SCHEMAS: public
+      PGRST_DB_ANON_ROLE: web_anon
+      PGRST_JWT_SECRET: ${JWT_SECRET:-dev-secret-change-me-please-32-chars}
+      PGRST_DB_MAX_ROWS: 1000
+      PGRST_OPENAPI_MODE: follow-privileges
+    ports:
+      - "${API_PORT:-3000}:3000"
+
+volumes:
+  pgdata:

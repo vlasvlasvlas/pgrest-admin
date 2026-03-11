@@ -1,0 +1,104 @@
+entity: proyecto
+table: proyectos
+label: Proyectos
+label_singular: Proyecto
+icon: folder
+
+permissions:
+  create: [app_user, app_admin]
+  edit: [app_user, app_admin]
+  delete: [app_user, app_admin]
+
+list:
+  default_sort: created_at.desc
+  page_size: 10
+  searchable: [nombre, descripcion]
+  columns:
+    - field: nombre
+      header: Nombre
+
+    - field: departamento_id
+      header: Departamento
+      embed: departamento:departamentos(nombre)
+      display: departamento.nombre
+
+    - field: municipio_id
+      header: Municipio
+      embed: municipio:municipios(nombre)
+      display: municipio.nombre
+
+    - field: estado_id
+      header: Estado
+      embed: estado:estados_proyecto(nombre,color)
+      display: estado.nombre
+      badge: true
+      color_field: estado.color
+
+    - field: monto
+      header: Monto
+      format: currency
+      align: right
+
+    - field: created_at
+      header: Creado
+      format: date
+
+fields:
+  - name: nombre
+    type: text
+    label: Nombre del Proyecto
+    required: true
+    max_length: 200
+
+  - name: descripcion
+    type: textarea
+    label: Descripcion
+    rows: 3
+
+  - name: departamento_id
+    type: select
+    label: Departamento
+    required: true
+    source:
+      endpoint: /departamentos?select=id,nombre&order=nombre.asc
+      value_field: id
+      display_field: nombre
+
+  - name: municipio_id
+    type: select
+    label: Municipio
+    required: true
+    depends_on: departamento_id
+    source:
+      endpoint: /municipios?select=id,nombre&departamento_id=eq.{departamento_id}&order=nombre.asc
+      value_field: id
+      display_field: nombre
+
+  - name: estado_id
+    type: select
+    label: Estado
+    required: true
+    default: 1
+    source:
+      endpoint: /estados_proyecto?select=id,nombre&order=orden.asc
+      value_field: id
+      display_field: nombre
+
+  - name: monto
+    type: decimal
+    label: Monto
+    required: true
+    min: 0
+    step: 0.01
+
+  - name: fecha_inicio
+    type: date
+    label: Fecha Inicio
+
+  - name: fecha_fin
+    type: date
+    label: Fecha Fin
+
+  - name: creado_por
+    type: hidden
+    auto: jwt.user_id

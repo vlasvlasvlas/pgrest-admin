@@ -1,0 +1,23 @@
+entities:
+  - name: proyecto
+    label: Proyectos
+    group: Gestion
+    icon: folder
+
+  - name: departamento
+    label: Departamentos
+    group: Catalogos
+    icon: map
+    roles: [app_admin]
+
+  - name: municipio
+    label: Municipios
+    group: Catalogos
+    icon: pin
+    roles: [app_admin]
+
+  - name: estado_proyecto
+    label: Estados de Proyecto
+    group: Catalogos
+    icon: tag
+    roles: [app_admin]

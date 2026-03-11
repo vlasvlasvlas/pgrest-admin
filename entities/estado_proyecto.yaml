@@ -1,0 +1,44 @@
+entity: estado_proyecto
+table: estados_proyecto
+label: Estados de Proyecto
+label_singular: Estado de Proyecto
+icon: tag
+
+permissions:
+  create: [app_admin]
+  edit: [app_admin]
+  delete: [app_admin]
+
+list:
+  default_sort: orden.asc
+  page_size: 25
+  searchable: [nombre]
+  columns:
+    - field: id
+      header: ID
+    - field: nombre
+      header: Nombre
+    - field: color
+      header: Color
+    - field: orden
+      header: Orden
+
+fields:
+  - name: nombre
+    type: text
+    label: Nombre
+    required: true
+    max_length: 80
+
+  - name: color
+    type: text
+    label: Color Hex
+    required: true
+    pattern: "^#[0-9A-Fa-f]{6}$"
+    placeholder: "#2563eb"
+
+  - name: orden
+    type: integer
+    label: Orden
+    required: true
+    min: 1

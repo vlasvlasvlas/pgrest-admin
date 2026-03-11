@@ -1,0 +1,27 @@
+entity: departamento
+table: departamentos
+label: Departamentos
+label_singular: Departamento
+icon: map
+
+permissions:
+  create: [app_admin]
+  edit: [app_admin]
+  delete: [app_admin]
+
+list:
+  default_sort: nombre.asc
+  page_size: 25
+  searchable: [nombre]
+  columns:
+    - field: id
+      header: ID
+    - field: nombre
+      header: Nombre
+
+fields:
+  - name: nombre
+    type: text
+    label: Nombre
+    required: true
+    max_length: 120
